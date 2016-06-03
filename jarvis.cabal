@@ -1,14 +1,14 @@
 name:                jarvis
 version:             0.1.0.0
-synopsis:            Initial project template from stack
+synopsis:            Jarvis gives suggestions on how to improve your Java code
 description:         Please see README.md
-homepage:            https://github.com/githubuser/jarvis#readme
+homepage:            https://github.com/kseo/jarvis#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2016 Author name here
-category:            Web
+author:              Kwang Yul Seo
+maintainer:          kwangyul.seo@gmail.com
+copyright:           2016 Kwang Yul Seo
+category:            Development
 build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
@@ -38,4 +38,4 @@ test-suite jarvis-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/jarvis
+  location: https://github.com/kseo/jarvis
