@@ -1,6 +1,14 @@
 module Main where
 
-import Lib
+import Control.Monad
+import System.Environment
+import System.Exit
+
+import Jarvis
 
 main :: IO ()
-main = someFunc
+main = do
+  args <- getArgs
+  errs <- jarvis args
+  unless (null errs) $
+      exitWith $ ExitFailure 1
