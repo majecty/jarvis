@@ -8,6 +8,7 @@ module Jarvis
 import Data.Foldable
 import Data.Generics.Uniplate.Data
 import Data.List (isSuffixOf)
+import Data.Version (showVersion)
 import Language.Java.Parser
 import Language.Java.Syntax
 import System.Directory
@@ -17,10 +18,11 @@ import Jarvis.Hint.All
 import Jarvis.Hint.Type
 import Jarvis.Idea
 import Jarvis.Settings
+import Paths_jarvis (version)
 
 data JarvisOption = JarvisOption
   { javaVersion :: Int
-  , version :: Bool
+  , versionFlag :: Bool
   , paths :: [FilePath]
   } deriving (Eq, Show)
 
@@ -32,7 +34,13 @@ getAllJavaPaths path = map (path </>) . filter isJavaFile <$> getDirectoryConten
 
 -- | This function takes a list of command line arguments, and returns the given hints.
 jarvis :: JarvisOption -> IO [Idea]
-jarvis JarvisOption {..} = do
+jarvis JarvisOption {..} =
+  if versionFlag
+     then putStrLn ("jarvis " ++ showVersion version) >> return []
+     else analyze paths
+
+analyze :: [FilePath] -> IO [Idea]
+analyze paths = do
   javaPaths <- getAllJavaPaths (head paths)
   r <- sequenceA <$> traverse parseJavaFile javaPaths
   case r of
