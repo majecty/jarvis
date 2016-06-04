@@ -5,6 +5,7 @@ module Jarvis
   , JarvisOption(..)
   ) where
 
+import Control.Monad.Extra
 import Data.Foldable
 import Data.Generics.Uniplate.Data
 import Data.List (isSuffixOf)
@@ -41,7 +42,7 @@ jarvis JarvisOption {..} =
 
 analyze :: [FilePath] -> IO [Idea]
 analyze paths = do
-  javaPaths <- getAllJavaPaths (head paths)
+  javaPaths <- concatMapM getAllJavaPaths paths
   r <- sequenceA <$> traverse parseJavaFile javaPaths
   case r of
     Left e -> do
