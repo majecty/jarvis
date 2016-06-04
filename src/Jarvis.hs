@@ -2,6 +2,7 @@
 
 module Jarvis
   ( jarvis
+  , JarvisOption(..)
   ) where
 
 import Data.Foldable
@@ -17,6 +18,12 @@ import Jarvis.Hint.Type
 import Jarvis.Idea
 import Jarvis.Settings
 
+data JarvisOption = JarvisOption
+  { javaVersion :: Int
+  , version :: Bool
+  , paths :: [FilePath]
+  } deriving (Eq, Show)
+
 isJavaFile :: FilePath -> Bool
 isJavaFile f = ".java" `isSuffixOf` f
 
@@ -24,9 +31,9 @@ getAllJavaPaths :: FilePath -> IO [FilePath]
 getAllJavaPaths path = map (path </>) . filter isJavaFile <$> getDirectoryContents path
 
 -- | This function takes a list of command line arguments, and returns the given hints.
-jarvis :: [String] -> IO [Idea]
-jarvis args = do
-  javaPaths <- getAllJavaPaths (head args)
+jarvis :: JarvisOption -> IO [Idea]
+jarvis JarvisOption {..} = do
+  javaPaths <- getAllJavaPaths (head paths)
   r <- sequenceA <$> traverse parseJavaFile javaPaths
   case r of
     Left e -> do
