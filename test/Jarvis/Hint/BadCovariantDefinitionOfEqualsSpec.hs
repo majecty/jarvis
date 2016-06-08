@@ -9,6 +9,7 @@ import Language.Java.Syntax (CompilationUnit(..))
 
 import Jarvis.Hint.BadCovariantDefinitionOfEquals
 import Jarvis.Idea
+import Jarvis.Hint.Helper
 
 srcBad :: String
 srcBad = [r|
@@ -29,15 +30,11 @@ class Foo {
 }
 |]
 
-runHint :: String -> [Idea]
-runHint src = let (Right (CompilationUnit _ _ typeDecls)) = parser compilationUnit src
-              in concatMap badCovariantDefinitionOfEqualsHint typeDecls
-
 spec :: Spec
 spec = do
   describe "badCovariantDefinitionOfEqualsHint" $ do
     it "warns with bad definition of equals" $
-      runHint srcBad `shouldSatisfy` (not . null)
+      runHint badCovariantDefinitionOfEqualsHint srcBad `shouldSatisfy` (not . null)
     it "detects nothing with good definition of equals" $
-      runHint srcGood `shouldBe` []
+      runHint badCovariantDefinitionOfEqualsHint srcGood `shouldBe` []
 

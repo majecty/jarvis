@@ -18,6 +18,7 @@ library
   exposed-modules:     Jarvis
                        Jarvis.Hint.All
                        Jarvis.Hint.BadCovariantDefinitionOfEquals
+                       Jarvis.Hint.BadComparisonWithBoolean
                        Jarvis.Hint.Type
                        Jarvis.Idea
                        Jarvis.Settings
@@ -49,6 +50,9 @@ test-suite jarvis-test
                      , QuickCheck
                      , language-java >= 0.2.8 && < 0.3
                      , raw-strings-qq
+  other-modules:       Jarvis.Hint.BadComparisonWithBooleanSpec
+                       Jarvis.Hint.BadCovariantDefinitionOfEqualsSpec
+                       Jarvis.Hint.Helper
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
