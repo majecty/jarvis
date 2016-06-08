@@ -22,6 +22,6 @@ data Hint = Hint
   }
 
 instance Monoid Hint where
-    mempty = Hint (const []) (const []) (const [])
+    mempty = Hint mempty mempty mempty
     mappend (Hint x1 x2 x3) (Hint y1 y2 y3) =
-        Hint (\a -> x1 a ++ y1 a) (\a -> x2 a ++ y2 a) (\a -> x3 a ++ y3 a)
+        Hint (x1 <> y1) (x2 <> y2) (x3 <> y3)
