@@ -10,8 +10,8 @@ import Data.Foldable
 import Data.Generics.Uniplate.Data
 import Data.List (isSuffixOf)
 import Data.Version (showVersion)
-import Language.Java.Parser
-import Language.Java.Syntax
+import Language.Java.Parser (parser, compilationUnit)
+import Language.Java.Syntax (CompilationUnit(..))
 import System.Directory
 import System.FilePath
 
