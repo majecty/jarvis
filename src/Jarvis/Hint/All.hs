@@ -7,16 +7,19 @@ module Jarvis.Hint.All
 import Jarvis.Hint.Type
 import Jarvis.Hint.BadCovariantDefinitionOfEquals
 import Jarvis.Hint.BadComparisonWithBoolean
+import Jarvis.Hint.UnconditionalIfStatement
 
 data HintBuiltin =
     HintBadCovariantDefinitionOfEquals
-    | HintBadComparisonWithBoolean
+  | HintBadComparisonWithBoolean
+  | HintUnconditionalIfStatement
   deriving (Show,Eq,Ord,Bounded,Enum)
 
 builtin :: HintBuiltin -> Hint
 builtin x = case x of
   HintBadCovariantDefinitionOfEquals -> typeDecl badCovariantDefinitionOfEqualsHint
   HintBadComparisonWithBoolean -> typeDecl badComparisonWithBooleanHint
+  HintUnconditionalIfStatement -> typeDecl unconditionalIfStatementHint
   where
     typeDecl x = mempty{hintTypeDecl=x}
 
