@@ -30,11 +30,15 @@ class Foo {
 }
 |]
 
+isBadCovariantDefinitionOfEqualsHint :: Idea -> Bool
+isBadCovariantDefinitionOfEqualsHint Idea{ideaHint=ideaHint} =
+  ideaHint == "Bad covariant definition of equals"
+
 spec :: Spec
 spec = do
   describe "badCovariantDefinitionOfEqualsHint" $ do
     it "warns with bad definition of equals" $
-      runHint badCovariantDefinitionOfEqualsHint srcBad `shouldSatisfy` (not . null)
+      runHint badCovariantDefinitionOfEqualsHint srcBad `shouldSatisfy` (all isBadCovariantDefinitionOfEqualsHint) .&&. (not . null)
     it "detects nothing with good definition of equals" $
       runHint badCovariantDefinitionOfEqualsHint srcGood `shouldBe` []
 
