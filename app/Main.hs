@@ -18,6 +18,7 @@ opts = info (helper <*> cmdOption)
         <> help "Java version [default to 8]")
        <*> switch
         ( long "version"
+        <> short 'V'
         <> help "Show jarvis version" )
        <*> many (argument str (metavar "FILE"))
 
