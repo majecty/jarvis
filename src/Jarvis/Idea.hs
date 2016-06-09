@@ -5,10 +5,12 @@ module Jarvis.Idea
   , idea
   , rawIdea
   , rawIdeaN
+  , showIdeasJson
   , suggest
   , warn
   ) where
 
+import Data.List (intercalate)
 import Jarvis.Settings
 import Language.Java.Pretty
 
@@ -34,6 +36,22 @@ showEx tt Idea{..} = unlines $
     f msg (Just x) | null xs = [msg ++ " remove it."]
                    | otherwise = (msg ++ ":") : map ("  "++) xs
       where xs = lines $ tt x
+
+showIdeaJson :: Idea -> String
+showIdeaJson idea@Idea{..} = wrap . intercalate "," . map mkPair $
+    [("module", show ideaPackage)
+    ,("decl", show ideaTypeDecl)
+    ,("severity", show . show $ ideaSeverity)
+    ,("hint", show ideaHint)
+    ,("from", show ideaFrom)
+    ,("to", maybe "null" show ideaTo)
+    ]
+  where
+    mkPair (k, v) = show k ++ ":" ++ v
+    wrap x = "{" ++ x ++ "}"
+
+showIdeasJson :: [Idea] -> String
+showIdeasJson ideas = "[" ++ intercalate "\n," (map showIdeaJson ideas) ++ "]"
 
 rawIdea = Idea "" ""
 rawIdeaN a b c d = Idea "" "" a b c d

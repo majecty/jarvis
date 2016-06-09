@@ -24,6 +24,7 @@ import Paths_jarvis (version)
 data JarvisOption = JarvisOption
   { javaVersion :: Int
   , versionFlag :: Bool
+  , jsonFlag :: Bool
   , paths :: [FilePath]
   } deriving (Eq, Show)
 
@@ -35,13 +36,13 @@ getAllJavaPaths path = map (path </>) . filter isJavaFile <$> getDirectoryConten
 
 -- | This function takes a list of command line arguments, and returns the given hints.
 jarvis :: JarvisOption -> IO [Idea]
-jarvis JarvisOption {..} =
+jarvis option@(JarvisOption {..}) =
   if versionFlag
      then putStrLn ("jarvis " ++ showVersion version) >> return []
-     else analyze paths
+     else analyze option
 
-analyze :: [FilePath] -> IO [Idea]
-analyze paths = do
+analyze :: JarvisOption -> IO [Idea]
+analyze (JarvisOption {..}) = do
   javaPaths <- concatMapM getAllJavaPaths paths
   r <- sequenceA <$> traverse parseJavaFile javaPaths
   case r of
@@ -50,7 +51,9 @@ analyze paths = do
       return []
     Right compUnits -> do
       let ideas = applyCrossHint allHint compUnits ++ concatMap (applyHint allHint) compUnits
-      traverse_ (putStrLn . show) ideas
+      if jsonFlag
+         then putStrLn (showIdeasJson ideas)
+         else traverse_ (putStrLn . show) ideas
       return ideas
   where
     allHint = fold $ fmap snd builtinHints

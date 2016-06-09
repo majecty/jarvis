@@ -20,6 +20,9 @@ opts = info (helper <*> cmdOption)
         ( long "version"
         <> short 'V'
         <> help "Show jarvis version" )
+       <*> switch
+        ( long "json"
+        <> help "Display hint data as JSON" )
        <*> many (argument str (metavar "FILE"))
 
 main :: IO ()
