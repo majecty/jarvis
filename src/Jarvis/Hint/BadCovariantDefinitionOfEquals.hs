@@ -5,11 +5,9 @@ module Jarvis.Hint.BadCovariantDefinitionOfEquals
 import Data.Generics.Uniplate.Data
 import Language.Java.Syntax
 
+import Jarvis.Hint.JavaSyntaxHelper
 import Jarvis.Hint.Type
 import Jarvis.Idea
-
-objectType :: Type
-objectType = RefType . ClassRefType . ClassType $ [(Ident "Object", [])]
 
 fixBadCovariantDefinitionOfEquals :: MemberDecl -> MemberDecl
 fixBadCovariantDefinitionOfEquals = transform $ \x ->

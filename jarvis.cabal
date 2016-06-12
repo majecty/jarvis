@@ -19,6 +19,7 @@ library
                        Jarvis.Hint.All
                        Jarvis.Hint.BadCovariantDefinitionOfEquals
                        Jarvis.Hint.BadComparisonWithBoolean
+                       Jarvis.Hint.JavaSyntaxHelper
                        Jarvis.Hint.UnconditionalIfStatement
                        Jarvis.Hint.Type
                        Jarvis.Idea
