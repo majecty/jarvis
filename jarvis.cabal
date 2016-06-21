@@ -21,6 +21,7 @@ library
                        Jarvis.Hint.BadComparisonWithBoolean
                        Jarvis.Hint.JavaSyntaxHelper
                        Jarvis.Hint.UnconditionalIfStatement
+                       Jarvis.Hint.ReturnInBothTryAndFinally
                        Jarvis.Hint.Type
                        Jarvis.Idea
                        Jarvis.Settings
